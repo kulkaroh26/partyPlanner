@@ -17,12 +17,15 @@ public class Partay {
 	private int numAttendees = 0;
 	private int searchNum;
 	
+	
+	ArrayList<Attendee> attList = new ArrayList<Attendee>();
 	//constructors
 	public Partay (int table, int seat){
 		newTable = table;
 		newSeat = seat;
+		private Attendee[][] seating = new Attendee[table][seat]; //2d array for seats and tables, first array is tables, second array is seats. It will store the company ID for each seat and table as a checker, not the attendee objects themselves
+		//the table and seat values will be stored as variables and accessed through getter methods, not the array itself
 		
-		ArrayList<Attendee> attList = new ArrayList<Attendee>();
 		try {
 			File myObj = new File("partyguests.txt");
 			Scanner myReader = new Scanner(myObj);
@@ -32,20 +35,34 @@ public class Partay {
 				String[] dataSplit = data.split(",");
 				String tempName = dataSplit[2] + " " + dataSplit[1];
 				Attendee att = new Attendee(tempName, Integer.parseInt(dataSplit[3]));
+				int tempCompID = Integer.parseInt(dataSplit[3]);
 				attList.add(att);
 				numAttendees++;
+				for (int x=0;x<table-1;x++){
+					int counter = 0;
+					for (int y=0;y<seat-1;y++){
+						if (y=0){
+							seating[x][y]=att;
+						}
+						if (seating[x][y]==tempCompID){ 
+							break;
+						}
+						counter++;
+
+					}
+				}
 			
 			}
 			myReader.close();
 
-			} 
+		} 
 		catch (FileNotFoundException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		} 
 	}
 	public void walkInRegister(){
-		if (int j=0;j<100-numAttendees;j++){
+		if (numAttendees<100){
 			System.out.println("Would you like to register more attendees? y/n");
 			Scanner scan = new Scanner(System.in); //handles user inputs
 			String newReg = scan.nextLine();
@@ -73,15 +90,14 @@ public class Partay {
 		
 			if (newReg.equals("n")){
 				System.out.println("You have chosen not to register");
-				break;
 			}
 		}
 		else {
-			return "Too many registers, cannot register further";
+			System.out.print("Too many registers, cannot register further");
 		}
 	}
 	
-	public int getInfo(int searchCompNum){
+	public void getInfo(int searchCompNum){
 		searchNum = searchCompNum;
 		for (int i=0;i<attList.size()-1;i++){
 			if (attList.get(i).getCompanyID()==searchNum){
