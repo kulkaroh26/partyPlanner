@@ -23,46 +23,100 @@ public class Partay {
 	public Partay (int table, int seat){
 		newTable = table;
 		newSeat = seat;
-		private Attendee[][] seating = new Attendee[table][seat]; //2d array for seats and tables, first array is tables, second array is seats. It will store the company ID for each seat and table as a checker, not the attendee objects themselves
+		int counter = 0;
+		int tempCompID;
+		String tempName;
+		Attendee[][] seating = new Attendee[table][seat]; //2d array for seats and tables, first array is tables, second array is seats. It will store the company ID for each seat and table as a checker, not the attendee objects themselves
 		//the table and seat values will be stored as variables and accessed through getter methods, not the array itself
-		
+		Scanner scan = new Scanner(System.in);
 		try {
 			File myObj = new File("partyguests.txt");
 			Scanner myReader = new Scanner(myObj);
-			myReader.nextLine();
 			while (myReader.hasNextLine()) {
 				String data = myReader.nextLine();
 				String[] dataSplit = data.split(",");
-				String tempName = dataSplit[2] + " " + dataSplit[1];
+				tempName = dataSplit[2] + " " + dataSplit[1];
 				Attendee att = new Attendee(tempName, Integer.parseInt(dataSplit[3]));
-				int tempCompID = Integer.parseInt(dataSplit[3]);
+				tempCompID = Integer.parseInt(dataSplit[3]);
 				attList.add(att);
 				numAttendees++;
-				for (int x=0;x<table-1;x++){
-					int counter = 0;
+				/*for (int x=0;x<table-1;x++){
+					boolean checkCompany = false;
 					for (int y=0;y<seat-1;y++){
-						if (y=0){
-							seating[x][y]=att;
+						if (seating[x][y]!=null){
+							y++;
 						}
-						if (seating[x][y]==tempCompID){ 
+						for (int z=0;z<seat-1;z++){
+							if (seating[x][z]==null){
+							}
+							else if (seating[x][z].getCompanyID()==tempCompID){
+								checkCompany=true;
+								break;
+							}
+						}
+						if (checkCompany==true){
+							break; 
+						}
+						if (checkCompany==false){
+							seating[x][y]=att;
+							att.setSeatID(y);
+							att.setTableID(x);
+							System.out.print("Table: " + x + ", Seat: " + y + ", Name: " + tempName + "\n");
 							break;
 						}
-						counter++;
-
 					}
-				}
-			
+				}*/
+			//myReader.close();
 			}
-			myReader.close();
-
 		} 
 		catch (FileNotFoundException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		} 
-	}
+		
+		for (int x=0;x<table-1;x++){
+					boolean checkCompany = false;
+					for (int y=0;y<seat-1;y++){
+						while (seating[x][y] == null){
+							/*if (seating[x][y]!=null){
+								y++;
+							}*/
+							for (Attendee a : attList){
+								if (a.getSeatID()==-1){
+									System.out.print(counter+"\n");
+									break;
+								}
+								else{
+									counter++;
+								}
+							}
+							for (int z=0;z<seat-1;z++){
+								if (seating[x][z]==null){
+								}
+								else if (seating[x][z].getCompanyID()==attList.get(counter-1).getCompanyID()){
+									checkCompany=true;
+									//break;
+								}
+							}
+							if (counter == attList.size()){
+								break;
+							}
+							
+							if (checkCompany==false){
+								seating[x][y]=attList.get(counter);
+								attList.get(counter).setSeatID(y);
+								attList.get(counter).setTableID(x);
+								System.out.print("Table: " + attList.get(counter).getTableID() + ", Seat: " + attList.get(counter).getSeatID() + ", Name: " + attList.get(counter).getName() + "\n");
+								break;
+							}
+						}
+					}
+				}
+		}
+	
+
 	public void walkInRegister(){
-		if (numAttendees<100){
+		if (numAttendees<(newTable*newSeat)){
 			System.out.println("Would you like to register more attendees? y/n");
 			Scanner scan = new Scanner(System.in); //handles user inputs
 			String newReg = scan.nextLine();
@@ -106,3 +160,4 @@ public class Partay {
 		}
 	}	
 }
+
