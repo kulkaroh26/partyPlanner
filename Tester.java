@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;  // Import this class to handle errors
 public class Tester {
 	public static void main (String[] args){
 		
-		int numAttendees = 0;
+		/*int numAttendees = 0;
 		
 		ArrayList<Attendee> attList = new ArrayList<Attendee>();
 		try {
@@ -69,6 +69,9 @@ public class Tester {
 			if (attList.get(i).getCompanyID()==searchNum){
 				System.out.print("Name: " + attList.get(i).getName() + " ,Table ID: " + attList.get(i).getTableID()+ " ,Seat ID: " + attList.get(i).getSeatID());
 			}
-		}
+		}*/
+		
+		Partay p1 = new Partay(10, 10);
+		
 	}
 }
