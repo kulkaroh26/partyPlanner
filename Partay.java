@@ -73,47 +73,56 @@ public class Partay {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		} 
-		
-		for (int x=0;x<table-1;x++){
+		int numPrint = 0;
+		for (int x=0;x<table;x++){
 					boolean checkCompany = false;
-					for (int y=0;y<seat-1;y++){
+					for (int y=0;y<seat;y++){
+						counter = 0;
 						while (seating[x][y] == null){
-							/*if (seating[x][y]!=null){
+							if (seating[x][y]!=null){
 								y++;
-							}*/
-							for (Attendee a : attList){
-								if (a.getSeatID()==-1){
-									System.out.print(counter+"\n");
+							}
+							for (int d=0;d<attList.size();d++){
+								if (attList.get(d).getSeatID()==-1){
 									break;
 								}
 								else{
 									counter++;
+									
 								}
+							}
+							System.out.println(counter);
+							//System.out.println("AttList size: " + attList.size());
+							if (counter >= attList.size()){
+								break;
 							}
 							for (int z=0;z<seat-1;z++){
 								if (seating[x][z]==null){
 								}
-								else if (seating[x][z].getCompanyID()==attList.get(counter-1).getCompanyID()){
+								else if (seating[x][z].getCompanyID()==attList.get(counter).getCompanyID()){
 									checkCompany=true;
-									//break;
+									
 								}
 							}
-							if (counter == attList.size()){
-								break;
-							}
+							
 							
 							if (checkCompany==false){
 								seating[x][y]=attList.get(counter);
 								attList.get(counter).setSeatID(y);
 								attList.get(counter).setTableID(x);
-								System.out.print("Table: " + attList.get(counter).getTableID() + ", Seat: " + attList.get(counter).getSeatID() + ", Name: " + attList.get(counter).getName() + "\n");
-								break;
+								System.out.print("Table: " + attList.get(counter).getTableID() + ", Seat: " + attList.get(counter).getSeatID() + ", Name: " + attList.get(counter).getName() + ", Company ID: " + attList.get(counter).getCompanyID() + "\n");
+								x=0;
+								numPrint++;
+								
 							}
+							//counter++;
 						}
 					}
 				}
+		System.out.print(numAttendees);
+		System.out.print(numPrint);
 		}
-	
+		
 
 	public void walkInRegister(){
 		if (numAttendees<(newTable*newSeat)){
@@ -160,4 +169,3 @@ public class Partay {
 		}
 	}	
 }
-
