@@ -74,16 +74,52 @@ public class Partay {
 			e.printStackTrace();
 		} 
 		int numPrint = 0;
+		int compMax = 0;
+		int checker = 0;
+		for (int g=0;g<attList.size()-1;g++){ //if there are more than 10 people per company, this removes everybody after 10 people
+			
+			if (attList.get(g).getCompanyID()==attList.get(g+1).getCompanyID()){
+				//System.out.print("same ID");
+				compMax++;
+				System.out.println(compMax + " #: " + g);
+			}
+			else
+			{
+				compMax = 0;
+			}
+			if (compMax >=9){
+				compMax = 0;
+				System.out.println("Should Remove");
+				if (attList.get(g).getCompanyID()==attList.get(g-1).getCompanyID()){
+					//System.out.print(attList.get(g));
+					attList.remove(g);
+					//System.out.print(attList.get(g));
+					
+				}
+			}
+		}
+		numAttendees = attList.size();
 		for (int x=0;x<table;x++){
 					boolean checkCompany = false;
+					int compCounter = 0;
 					for (int y=0;y<seat;y++){
 						counter = 0;
+						/*if (attList.get(counter).getCompanyID()==attList.get(counter+1).getCompanyID()){
+									compCounter++;
+								}
+							if (compCounter==10){
+									counter++;
+									break;
+								}*/
+						if (x==table-1){
+								while (attList.get(counter).getCompanyID()!=attList.get(counter+1).getCompanyID()){
+									counter++;
+								}
+							}	
 						while (seating[x][y] == null){
-							if (seating[x][y]!=null){
-								y++;
-							}
 							for (int d=0;d<attList.size();d++){
 								if (attList.get(d).getSeatID()==-1){
+									//System.out.println("X: " + x + ", Y: " + y + ", v: " + v);
 									break;
 								}
 								else{
@@ -91,7 +127,6 @@ public class Partay {
 									
 								}
 							}
-							System.out.println(counter);
 							//System.out.println("AttList size: " + attList.size());
 							if (counter >= attList.size()){
 								break;
@@ -99,18 +134,17 @@ public class Partay {
 							for (int z=0;z<seat-1;z++){
 								if (seating[x][z]==null){
 								}
+								
 								else if (seating[x][z].getCompanyID()==attList.get(counter).getCompanyID()){
 									checkCompany=true;
 									
 								}
-							}
-							
-							
+							}						
 							if (checkCompany==false){
 								seating[x][y]=attList.get(counter);
 								attList.get(counter).setSeatID(y);
 								attList.get(counter).setTableID(x);
-								System.out.print("Table: " + attList.get(counter).getTableID() + ", Seat: " + attList.get(counter).getSeatID() + ", Name: " + attList.get(counter).getName() + ", Company ID: " + attList.get(counter).getCompanyID() + "\n");
+								System.out.print("Table: " + attList.get(counter).getTableID() + ", Seat: " + attList.get(counter).getSeatID() + ", Name: " + attList.get(counter).getName() + ", Company ID: " + attList.get(counter).getCompanyID() + ", X: " + x + ", Y: "+y+"\n");
 								x=0;
 								numPrint++;
 								
@@ -119,8 +153,9 @@ public class Partay {
 						}
 					}
 				}
-		System.out.print(numAttendees);
+		//System.out.print(numAttendees);
 		System.out.print(numPrint);
+		System.out.print(counter);
 		}
 		
 
