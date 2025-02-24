@@ -88,14 +88,15 @@ public class Partay {
 				compMax = 0;
 			}
 			if (compMax >=9){
-				compMax = 0;
 				System.out.println("Should Remove");
-				if (attList.get(g).getCompanyID()==attList.get(g-1).getCompanyID()){
+				while (attList.get(g).getCompanyID()==attList.get(g-1).getCompanyID()){
 					//System.out.print(attList.get(g));
 					attList.remove(g);
 					//System.out.print(attList.get(g));
 					
 				}
+				compMax=0;
+				
 			}
 		}
 		numAttendees = attList.size();
