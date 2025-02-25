@@ -15,9 +15,9 @@ public class Partay {
 	private int newTable;
 	private int newSeat;
 	private int numAttendees = 0;
-	private int searchNum;
-	
-	
+	private String searchName;
+	//Attendee[][] seating = new Attendee[newTable][newSeat];
+	Attendee[][]seating;
 	ArrayList<Attendee> attList = new ArrayList<Attendee>();
 	//constructors
 	public Partay (int table, int seat){
@@ -40,33 +40,6 @@ public class Partay {
 				tempCompID = Integer.parseInt(dataSplit[3]);
 				attList.add(att);
 				numAttendees++;
-				/*for (int x=0;x<table-1;x++){
-					boolean checkCompany = false;
-					for (int y=0;y<seat-1;y++){
-						if (seating[x][y]!=null){
-							y++;
-						}
-						for (int z=0;z<seat-1;z++){
-							if (seating[x][z]==null){
-							}
-							else if (seating[x][z].getCompanyID()==tempCompID){
-								checkCompany=true;
-								break;
-							}
-						}
-						if (checkCompany==true){
-							break; 
-						}
-						if (checkCompany==false){
-							seating[x][y]=att;
-							att.setSeatID(y);
-							att.setTableID(x);
-							System.out.print("Table: " + x + ", Seat: " + y + ", Name: " + tempName + "\n");
-							break;
-						}
-					}
-				}*/
-			//myReader.close();
 			}
 		} 
 		catch (FileNotFoundException e) {
@@ -81,14 +54,14 @@ public class Partay {
 			if (attList.get(g).getCompanyID()==attList.get(g+1).getCompanyID()){
 				//System.out.print("same ID");
 				compMax++;
-				System.out.println(compMax + " #: " + g);
+				//System.out.println(compMax + " #: " + g);
 			}
 			else
 			{
 				compMax = 0;
 			}
 			if (compMax >=9){
-				System.out.println("Should Remove");
+				//System.out.println("Should Remove");
 				while (attList.get(g).getCompanyID()==attList.get(g-1).getCompanyID()){
 					//System.out.print(attList.get(g));
 					attList.remove(g);
@@ -155,8 +128,8 @@ public class Partay {
 					}
 				}
 		//System.out.print(numAttendees);
-		System.out.print(numPrint);
-		System.out.print(counter);
+		//System.out.print(numPrint);
+		//System.out.print(counter);
 		}
 		
 
@@ -195,11 +168,16 @@ public class Partay {
 			System.out.print("Too many registers, cannot register further");
 		}
 	}
+	public void getTableRoster(int tableNum){
+			for (int h=0;h<newSeat;h++){
+				System.out.println("Name: " + seating[tableNum-1][h].getName() + " ,Table ID: " + seating[tableNum-1][h].getTableID()+ " ,Seat ID: " + seating[tableNum-1][h].getSeatID() + " \n");
+			}
+		}
 	
-	public void getInfo(int searchCompNum){
-		searchNum = searchCompNum;
+	public void getInfo(String searchAttName){
+		searchName = searchAttName;
 		for (int i=0;i<attList.size()-1;i++){
-			if (attList.get(i).getCompanyID()==searchNum){
+			if (attList.get(i).getName().equals(searchName)){
 				System.out.print("Name: " + attList.get(i).getName() + " ,Table ID: " + attList.get(i).getTableID()+ " ,Seat ID: " + attList.get(i).getSeatID() + " \n");
 			}
 		}
